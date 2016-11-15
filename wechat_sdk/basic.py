@@ -26,7 +26,8 @@ class WechatBasic(WechatBase):
     """
     def __init__(self, token=None, appid=None, appsecret=None, partnerid=None,
                  partnerkey=None, paysignkey=None, access_token=None, access_token_expires_at=None,
-                 jsapi_ticket=None, jsapi_ticket_expires_at=None, checkssl=False, conf=None):
+                 jsapi_ticket=None, jsapi_ticket_expires_at=None, checkssl=False, timeout=(20, 60),
+                 conf=None):
         """
         :param token: 微信 Token
         :param appid: App ID
@@ -756,11 +757,13 @@ class WechatBasic(WechatBase):
         :param ticket: 二维码 ticket 。可以通过 :func:`create_qrcode` 获取到
         :return: 返回的 Request 对象
         """
+        timeout = self.__conf.timeout if self.__conf is not None else (20, 60)
         return requests.get(
             url='https://mp.weixin.qq.com/cgi-bin/showqrcode',
             params={
                 'ticket': ticket
-            }
+            },
+            timeout=timeout
         )
 
     def set_template_industry(self, industry_id1, industry_id2):

@@ -29,6 +29,7 @@ class WechatRequest(object):
         :return: 微信服务器响应的 JSON 数据
         """
         access_token = self.__conf.access_token if self.__conf is not None else access_token
+        timeout = self.__conf.timeout if self.__conf is not None else (20, 60)
         if "params" not in kwargs:
             kwargs["params"] = {
                 "access_token": access_token
@@ -45,6 +46,7 @@ class WechatRequest(object):
         r = requests.request(
             method=method,
             url=url,
+            timeout=timeout,
             **kwargs
         )
         r.raise_for_status()

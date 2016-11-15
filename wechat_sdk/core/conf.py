@@ -52,6 +52,7 @@ class WechatConf(object):
                        'paysignkey': 商户签名密钥 Key, 支付权限专用
 
                        'checkssl': 是否检查 SSL, 默认不检查 (False), 可避免 urllib3 的 InsecurePlatformWarning 警告
+                       'timeout': 设置 requests 的 timeout, 默认 (20, 60)
         :return:
         """
 
@@ -85,6 +86,12 @@ class WechatConf(object):
         self.__partnerid = kwargs.get('partnerid')
         self.__partnerkey = kwargs.get('partnerkey')
         self.__paysignkey = kwargs.get('paysignkey')
+
+        self.__timeout = kwargs.get('timeout', (20, 60))
+
+    @property
+    def timeout(self):
+        return self.__timeout
 
     @property
     def token(self):
